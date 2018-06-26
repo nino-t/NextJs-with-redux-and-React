@@ -1,15 +1,16 @@
 import React from 'react' 
 import Link from 'next/link'
+import { connect } from 'react-redux'
+
+import { authLogin } from '../../actions/Auth'
 
 import Head from '../../../components/Head'
-import Error from '../../../components/Error'
-import Success from '../../../components/Success'
 import { AuthLayout } from '../../../components/Layouts'
 
-import { getCookie, removeCookie } from "../../../lib/session"
+import { getCookie, removeCookie, setCookie } from "../../../lib/session"
 import { signIn, redirectIfAuthenticated } from "../../../lib/auth"
 
-export default class Login extends React.Component {
+class Login extends React.Component {
 	static getInitialProps(ctx) {
 		if (redirectIfAuthenticated(ctx)) {
 			return {}
@@ -30,8 +31,7 @@ export default class Login extends React.Component {
 	
 	  this.state = {
 	  	email: '',
-	  	password: '',
-	  	error: null
+	  	password: ''
 	  }
 
 	  this.handleChange = this.handleChange.bind(this)
@@ -47,20 +47,12 @@ export default class Login extends React.Component {
 
   	handleSubmit = async e => {
   	    e.preventDefault()
-  	    const { email, password } = this.state
-  	    
-	    const error = await signIn(email, password)
-	    if (error) {
-	      this.setState({
-	        error
-	      })
-	      return false
-	    }
+	    this.props.handleSubmit(this.state)
 	}	
 
 	render() {
-		const { url, success } = this.props
-		const { email, password, error } = this.state
+		const { url, success, alert } = this.props
+		const { email, password } = this.state
 
 		return (
 			<AuthLayout>
@@ -73,9 +65,10 @@ export default class Login extends React.Component {
 									<h3 className="panel-title">Sign In</h3>
 								</div>
 								<div className="panel-body">
-									{success && <Success message={success} />}
-									{error && <Error message={error} />}
-
+			                        {
+			                        	alert.message &&
+			                            	<div className={`alert ${alert.type}`}>{alert.message}</div>
+			                        }			                       
 									<form role="form" onSubmit={this.handleSubmit}>
 										<fieldset>
 											<div className="form-group">
@@ -96,6 +89,7 @@ export default class Login extends React.Component {
 													name="password" 
 													type="password"
 													value={password}
+													minLength="8"
 													onChange={this.handleChange} />													
 											</div>
 
@@ -129,3 +123,19 @@ export default class Login extends React.Component {
 		)
 	}
 }
+
+const mapStateToProps = state => {
+	return {
+		alert: state.alert
+	}
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    handleSubmit: data => {
+      dispatch(authLogin(data))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

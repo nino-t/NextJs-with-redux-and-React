@@ -1,7 +1,8 @@
-import { post } from '../../lib/request'
+import { post, get } from '../../lib/request'
 
 export const authService = {
-	authLogin
+	authLogin,
+	initToken
 }
 
 async function authLogin(email, password){
@@ -11,6 +12,15 @@ async function authLogin(email, password){
 	      password: password
 	    })
 
+		return res
+	} catch (error) {
+		return error
+	}
+}
+
+async function initToken(token){
+	try {
+	    const res = await get("/api/verify-token", token)
 		return res
 	} catch (error) {
 		return error
