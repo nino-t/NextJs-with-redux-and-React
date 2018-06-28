@@ -5,14 +5,8 @@ import { connect } from 'react-redux'
 import { authLogin } from '../../actions/Auth'
 import Head from '../../../components/Head'
 import { AuthLayout } from '../../../components/Layouts'
-import { redirectIfAuthenticated } from "../../../lib/auth"
 
 class Login extends React.Component {
-	static getInitialProps(ctx) {
-		redirectIfAuthenticated(ctx)
-		return {}
-	}
-
 	constructor(props) {
 	  super(props);
 	

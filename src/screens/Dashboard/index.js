@@ -4,12 +4,8 @@ import { MainLayout } from '../../../components/Layouts'
 import { connect } from 'react-redux'
 import { todosFetch } from '../../actions/Todo'
 
-import { redirectIfNotAuthenticated } from "../../../lib/auth"
-
 class Dashboard extends React.Component {
 	componentWillMount() {
-		console.log('_ctx', this.props)
-
 		let params = {}
 		params.token = this.props.token
 		this.props.initialTodo(params)
@@ -30,7 +26,7 @@ class Dashboard extends React.Component {
 						(todos && todos.result) &&
 							todos.result.rows.map((todo, index) => (
 								<div className="col-xs-3 col-sm-3 col-md-3 col-lg-3" key={index}>
-									<div class="well">
+									<div className="well">
 										<h4>{todo.name}</h4>
 										<hr/>
 										<p>{todo.desc}</p>
