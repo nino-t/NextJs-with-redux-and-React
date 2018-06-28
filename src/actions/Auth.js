@@ -20,7 +20,7 @@ export const authLogin = (data) => {
 
         let token = res.data
         dispatch(authInit(token))
-        setCookie("jwt", token)
+        setCookie("token", token)
         redirect("/")        
       },
       error => {
@@ -44,6 +44,7 @@ export const authInit = token => {
         }
 
         dispatch(success(token, res.data))
+        setCookie("auth", JSON.stringify(res.data))
       },
       error => {
         dispatch(alertActions.error(error))

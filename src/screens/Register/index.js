@@ -3,8 +3,14 @@ import Link from 'next/link'
 
 import Head from '../../../components/Head'
 import { AuthLayout } from '../../../components/Layouts'
+import { redirectIfAuthenticated } from "../../../lib/auth"
 
 export default class Register extends React.Component {
+	static getInitialProps(ctx) {
+		redirectIfAuthenticated(ctx)
+		return {}
+	}
+
 	render() {
 		return (
 			<AuthLayout>

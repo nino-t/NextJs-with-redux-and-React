@@ -1,8 +1,10 @@
 import React from 'react'
 import Link from 'next/link'
+import { connect } from 'react-redux'
 
-export default class Header extends React.Component {
+class Header extends React.Component {
 	render() {
+		const { loggedIn } = this.props
 		return (
 			<div>
 				<nav className="navbar navbar-default" role="navigation">
@@ -31,23 +33,31 @@ export default class Header extends React.Component {
 								</li>
 							</ul>
 
-							<ul class="nav navbar-nav navbar-right">
-								<li>
-									<Link href="/auth/logout">
-										<a>Logout</a>
-									</Link>
-								</li>							
-								<li>
-									<Link href="/auth/register">
-										<a>Sign Up</a>
-									</Link>
-								</li>
-								<li>
-									<Link href="/auth/login">
-										<a>Sign In</a>
-									</Link>
-								</li>
-							</ul>							
+							<span>
+								{
+									(loggedIn) ?
+										<ul className="nav navbar-nav navbar-right">
+											<li>
+												<Link href="/auth/logout">
+													<a>Logout</a>
+												</Link>
+											</li>							
+										</ul>
+									:
+									<ul className="nav navbar-nav navbar-right">
+										<li>
+											<Link href="/auth/register">
+												<a>Sign Up</a>
+											</Link>
+										</li>
+										<li>
+											<Link href="/auth/login">
+												<a>Sign In</a>
+											</Link>
+										</li>
+									</ul>
+								}
+							</span>							
 						</div>
 					</div>
 				</nav>			
@@ -55,3 +65,11 @@ export default class Header extends React.Component {
 		)
 	}
 }
+
+const mapStateToProps = state => {
+	return {
+		loggedIn: state.authentication.loggedIn
+	}
+}
+
+export default connect(mapStateToProps)(Header)

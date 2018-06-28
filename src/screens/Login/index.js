@@ -3,27 +3,14 @@ import Link from 'next/link'
 import { connect } from 'react-redux'
 
 import { authLogin } from '../../actions/Auth'
-
 import Head from '../../../components/Head'
 import { AuthLayout } from '../../../components/Layouts'
-
-import { getCookie, removeCookie, setCookie } from "../../../lib/session"
-import { signIn, redirectIfAuthenticated } from "../../../lib/auth"
+import { redirectIfAuthenticated } from "../../../lib/auth"
 
 class Login extends React.Component {
 	static getInitialProps(ctx) {
-		if (redirectIfAuthenticated(ctx)) {
-			return {}
-		}
-
-		const success = getCookie("success", ctx.req)
-		if (success) {
-			removeCookie("success")
-		}
-
-		return {
-			success
-		}
+		redirectIfAuthenticated(ctx)
+		return {}
 	}
 
 	constructor(props) {
@@ -51,7 +38,7 @@ class Login extends React.Component {
 	}	
 
 	render() {
-		const { url, success, alert } = this.props
+		const { alert } = this.props
 		const { email, password } = this.state
 
 		return (
