@@ -1,9 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Dashboard from '../src/screens/Dashboard'
-import { redirectIfNotAuthenticated, getJwt } from '../lib/auth'
-import { todosFetch } from '../src/actions/Todo'
-import { authInit } from '../src/actions/Auth'
+import Create from '../../src/screens/Todo/Create'
+import { redirectIfNotAuthenticated, getJwt } from '../../lib/auth'
+import { authInit } from '../../src/actions/Auth'
 
 class Index extends React.Component {
 	static getInitialProps(ctx) {
@@ -13,14 +12,13 @@ class Index extends React.Component {
 		}
 	}
 
-	componentWillMount() {
+	componentDidMount() {		
 		const { dispatch, token} = this.props
 		dispatch(authInit(token))
-		dispatch(todosFetch({}))
 	}
 
 	render() {
-		return <Dashboard />
+		return <Create />
 	}
 }
 

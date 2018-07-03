@@ -20,7 +20,7 @@ async function authLogin(email, password){
 
 async function initToken(token){
 	try {
-	    const res = await get("/api/verify-token", token)
+	    const res = await get("/api/verify-token", null, token)
 		return res
 	} catch (error) {
 		return error

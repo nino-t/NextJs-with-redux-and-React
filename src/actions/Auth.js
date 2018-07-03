@@ -2,9 +2,14 @@ import { alertActions } from '../actions/Alert'
 import { constAuth } from '../../constants'
 import { authService } from '../services'
 import redirect from '../../lib/redirect'
-import { setCookie } from "../../lib/session"
+import { setCookie, removeCookie } from "../../lib/session"
 
 const failure = error => { return { type: constAuth.LOGIN_FAILURE, error } }
+const clearAuth = () => {
+  removeCookie('token')
+  removeCookie('auth')
+  redirect("/auth/login")
+}
 
 export const authLogin = (data) => {
   let { email, password } = data
@@ -39,7 +44,8 @@ export const authInit = token => {
       .then(res => {
         if (res.response) {
           dispatch(alertActions.error(res.response.data))
-          dispatch(failure(res.response.data))
+          dispatch(failure(res.response.data))          
+          clearAuth()
           return
         }
 
@@ -49,6 +55,7 @@ export const authInit = token => {
       error => {
         dispatch(alertActions.error(error))
         dispatch(failure(error))
+        clearAuth()
       })
   }
 
