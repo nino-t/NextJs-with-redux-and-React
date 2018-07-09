@@ -52,7 +52,33 @@ export const todoCreate = (params) => {
   function request(request) { return { type: constTodo.CREATE_REQUEST, request} }
   function success(todo) { return { type: constTodo.CREATE_SUCCESS, todo} }
   function failure(error) { return { type: constTodo.CREATE_FAILURE } }
-}
+} 
+
+export const todoUpdate = (params) => {
+  return (dispatch, getState) => {
+    const { token } = getState().authentication    
+    dispatch(request(params))
+    todoService.update(params, token)
+      .then(res => {
+        if (res.response) {
+          dispatch(alertActions.error(res.response.data))
+          dispatch(failure(res.response.data))
+          return
+        }
+
+        dispatch(success(res.data))
+        redirect("/")
+      },
+      error => {
+        dispatch(alertActions.error(error))
+        dispatch(failure(error))
+      })
+  }
+
+  function request(request) { return { type: constTodo.CREATE_REQUEST, request} }
+  function success(todo) { return { type: constTodo.CREATE_SUCCESS, todo} }
+  function failure(error) { return { type: constTodo.CREATE_FAILURE } }
+} 
 
 export const todoView = (params) => {
   return (dispatch, getState) => {
@@ -85,7 +111,7 @@ export const todoDelete = (params) => {
     dispatch(request(params))
     todoService.deleteReq(params, token)
       .then(res => {
-        redirect("/")
+        success(dispatch)
       },
       error => {
         dispatch(alertActions.error(error))
@@ -93,7 +119,7 @@ export const todoDelete = (params) => {
       })
   }
 
-  function request(request) { return { type: constTodo.DELETE_REQUEST, request} }
-  function success(todo) { return { type: constTodo.DELETE_SUCCESS, todo} }
+  function request(request) { return { type: constTodo.DELETE_REQUEST, request } }
+  function success(dispatch) { return dispatch(todosFetch({})) }
   function failure(error) { return { type: constTodo.DELETE_FAILURE } }
 }

@@ -1,9 +1,10 @@
-import { post, get, destroy } from '../../lib/request'
+import { post, get, put, destroy } from '../../lib/request'
 
 export const todoService = {
 	fetchs,
 	create,
 	view,
+	update,
 	deleteReq
 }
 
@@ -19,6 +20,15 @@ async function fetchs(params, token){
 async function create(params, token){
 	try {
 	    const res = await post("/api/todos", params, token)
+		return res
+	} catch (error) {
+		return error
+	}
+}
+
+async function update(params, token){
+	try {
+	    const res = await put(`/api/todos/${params.id}/edit`, params, token)
 		return res
 	} catch (error) {
 		return error

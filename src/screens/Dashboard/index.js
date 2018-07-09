@@ -22,9 +22,9 @@ class Dashboard extends React.Component {
 					{
 						(todos && todos.result) &&
 							todos.result.rows.map((todo, index) => (
-								<div className="col-xs-3 col-sm-3 col-md-3 col-lg-3" key={index} style={{ position: 'relative' }}>
-									<div className="well" style={{ height: '220px' }}>
-										<div style={{ height: '80%' }}>
+								<div className="col-xs-12 col-sm-4 col-md-3 col-lg-3" key={index} style={{ position: 'relative' }}>
+									<div className="well" style={{ height: '250px' }}>
+										<div style={{ height: '60%' }}>
 											<h4>
 												<Link href={`/todo/show?id=${todo.id}`}>
 													<a>{todo.name}</a>
@@ -33,13 +33,19 @@ class Dashboard extends React.Component {
 											<hr/>
 											<p>{todo.desc}</p>
 										</div>
-										<div style={{ height: '20%' }}>
+										<div style={{ height: '40%' }}>
 											<button 
 												type="button" className="btn btn-danger bn-xs" 
 												onClick={() => handleDelete(todo.id) }
-												style={{ width: '100%' }}>
+												style={{ width: '100%', marginBottom: '13px'}}>
 												Delete
 											</button>
+											<Link as={`/todo/${todo.id}/edit`} href={`/todo/edit/?id=${todo.id}`}>
+												<a className="btn btn-success bn-xs" 
+													style={{ width: '100%' }}>
+													Edit
+												</a>
+											</Link>
 										</div>
 									</div>
 								</div>
