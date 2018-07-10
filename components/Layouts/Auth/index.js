@@ -1,7 +1,7 @@
 import React from 'react'
 
 export const AuthLayout = (props) => (
-	<div>
+	<div style={{ background: '#63cdda' }}>
 		{props.children}
 	</div>
 )

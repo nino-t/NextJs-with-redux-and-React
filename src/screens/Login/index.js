@@ -6,6 +6,18 @@ import { authLogin } from '../../actions/Auth'
 import Head from '../../../components/Head'
 import { AuthLayout } from '../../../components/Layouts'
 
+import {
+	Card,
+	Container,
+	Flex,
+	FlexItem,
+	Cover,
+	Form,
+	Button,
+	Input,
+	Divider
+} from '../../../components/Styled'
+
 class Login extends React.Component {
 	constructor(props) {
 	  super(props);
@@ -38,68 +50,78 @@ class Login extends React.Component {
 		return (
 			<AuthLayout>
 				<Head title="Next Redux - Login" />
-				<div className="container" style={{ paddingTop: '150px' }}>
-					<div className="row">
-						<div className="col-md-4 col-md-push-4">
-							<div className="login-panel panel panel-default">
-								<div className="panel-heading">
-									<h3 className="panel-title">Sign In</h3>
-								</div>
-								<div className="panel-body">
-			                        {
-			                        	alert.message &&
-			                            	<div className={`alert ${alert.type}`}>{alert.message}</div>
-			                        }			                       
-									<form role="form" onSubmit={this.handleSubmit}>
-										<fieldset>
-											<div className="form-group">
-												<input 
-													className="form-control" 
-													placeholder="E-mail" 
-													name="email" 
-													type="email" 
-													autoFocus="true"
-													value={email}
-													onChange={this.handleChange} />													
-											</div>
+				<Container>
+					<div style={{ margin: '23.5px 0' }}>
+						<Card style={{ height: '550px' }}>
+							<Flex direction="row">
+								<FlexItem md='40%' height='550px'>
+									<Form onSubmit={this.handleSubmit}>
+										<Flex direction="column" center>
+											<img src="/static/img/logo.png" width="50" />
+											<h3>Rocket Todo</h3>
+											<small>Create an account</small>
+										</Flex>
 
-											<div className="form-group">
-												<input 
-													className="form-control" 
-													placeholder="Password" 
-													name="password" 
-													type="password"
-													value={password}
-													minLength="8"
-													onChange={this.handleChange} />													
-											</div>
+										<div>								
+					                        {
+					                        	alert.message &&
+					                            	<div className={`alert ${alert.type}`}>{alert.message}</div>
+					                        }
+				                        </div>
 
-											<div className="checkbox">
-												<label>
-													<input name="remember" type="checkbox" value="Remember Me" />Remember Me
-												</label>
-											</div>
+										<br /><br /><br />
 
-											<button 
-												type="submit" 
-												className="btn btn-sm btn-success">Login</button>
-										</fieldset>
-									</form>
+										<Flex direction="column" center style={{ width: '60%' }}>
+											<Button type="button" blue>
+												Sign up with Facebook
+											</Button>										
 
-									<center>
-										<hr />
-										<p>
-											<span style={{ marginRight: '2px' }}>Not have a account?</span>
-											<Link href="/auth/register">
-												<a>Click here</a>
-											</Link>
+											<Divider />
+
+											<Input 
+												type="email" 
+												name="email"
+												autoFocus="true"
+												placeholder="Email"
+												onChange={this.handleChange}
+												value={email} />
+
+											<Input 
+												type="password" 
+												name="password"
+												placeholder="Password"
+												minLength="8"
+												onChange={this.handleChange}
+												value={password} />
+
+											<br />
+
+											<Button type="submit" dark>
+												Get Starter
+											</Button>										
+										</Flex>
+
+										<br /><br /><br /><br />
+
+										<p style={{ fontSize: '14px', color: '#7f8c8d'}}>
+											Already have an account? <a href="#">Click Here</a>
 										</p>
-									</center>
-								</div>
-							</div>
-						</div>
+									</Form>
+								</FlexItem>
+								<FlexItem md='60%' height='550px' style={{ position:'relative' }}>
+									<Cover url="/static/img/team.jpg">
+										<h1>Mastermind Better</h1>
+										<br />
+										<p>
+											One morning, when Gregor Samsa woke from troubled dreams, 
+											he found himself transformed in his bed into a horrible vermin.
+										</p>
+									</Cover>
+								</FlexItem>							
+							</Flex>
+						</Card>
 					</div>
-				</div>
+				</Container>
 			</AuthLayout>
 		)
 	}
